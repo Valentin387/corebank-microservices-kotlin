@@ -229,6 +229,6 @@ curl -X POST http://localhost:8081/api/auth/login \
 
 ```bash
 # Home Balance (core-service :8082 — replace <token> with the token from above)
-curl http://localhost:8082/api/home/123456789 \
+curl -X GET http://localhost:8082/api/home/123456789 \
   -H "Authorization: Bearer <token>"
 ```
