@@ -45,8 +45,7 @@ Demonstrate a modern, idiomatic Kotlin microservices architecture using native c
 ```mermaid
 flowchart TD
     Client[Client / Insomnia] --> Auth[auth-service :8081<br/>POST /api/auth/login]
-    Client --> Core[core-service :8082 GET /api/home/{customerId}]
-    Auth <--> Redis[(Redis Token Cache)]
+    Client --> Core[core-service :8082<br/>GET /api/home/&#123;customerId&#125;]    Auth <--> Redis[(Redis Token Cache)]
     Core <--> Postgres[(PostgreSQL via R2DBC)]
     subgraph banking-commons [Shared Library]
         direction TB
