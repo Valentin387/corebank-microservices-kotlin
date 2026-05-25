@@ -14,6 +14,8 @@ object HeaderConstants {
 }
 
 class ReactiveJwtFilter(private val jwtUtil: JwtUtil) : WebFilter {
+    private val log = org.slf4j.LoggerFactory.getLogger(ReactiveJwtFilter::class.java)
+
     override fun filter(exchange: ServerWebExchange, chain: WebFilterChain): Mono<Void> {
         val request = exchange.request
         val path = request.uri.path
@@ -28,11 +30,16 @@ class ReactiveJwtFilter(private val jwtUtil: JwtUtil) : WebFilter {
             val token = authHeader.substring(HeaderConstants.BEARER_PREFIX.length)
 
             if (jwtUtil.validateToken(token)) {
+                log.debug("JWT token validated successfully for path: $path")
                 val username = jwtUtil.extractUsername(token)
                 val authToken = UsernamePasswordAuthenticationToken(username, null, emptyList())
                 return chain.filter(exchange)
                     .contextWrite(ReactiveSecurityContextHolder.withAuthentication(authToken))
+            } else {
+                log.warn("JWT token validation failed for path: $path")
             }
+        } else {
+            log.warn("Authorization header missing or invalid for path: $path")
         }
 
         exchange.response.statusCode = HttpStatus.UNAUTHORIZED
