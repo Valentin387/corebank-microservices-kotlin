@@ -1,8 +1,10 @@
 package com.corebank.commons.domain
 
 import org.springframework.data.annotation.Id
+import org.springframework.data.relational.core.mapping.Table
 import java.math.BigDecimal
 
+@Table("accounts")
 data class Account(
     @Id val id: Long? = null,
     val customerId: String,
@@ -17,6 +19,7 @@ data class Balance(
     val availableBalance: BigDecimal
 )
 
+@Table("cards")
 data class Card(
     @Id val id: Long? = null,
     val customerId: String,
@@ -25,3 +28,4 @@ data class Card(
     val creditLimit: BigDecimal,
     val availableBalance: BigDecimal
 )
+
