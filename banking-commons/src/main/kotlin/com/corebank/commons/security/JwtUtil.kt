@@ -31,14 +31,11 @@ class JwtUtil {
             .compact()
     }
 
-    private val log = org.slf4j.LoggerFactory.getLogger(JwtUtil::class.java)
-
     fun validateToken(token: String): Boolean {
         return try {
             Jwts.parser().verifyWith(signingKey).build().parseSignedClaims(token)
             true
         } catch (e: Exception) {
-            log.error("JWT validation failed: ${e.message}", e)
             false
         }
     }
