@@ -45,7 +45,8 @@ Demonstrate a modern, idiomatic Kotlin microservices architecture using native c
 ```mermaid
 flowchart TD
     Client[Client / Insomnia] --> Auth[auth-service :8081<br/>POST /api/auth/login]
-    Client --> Core[core-service :8082<br/>GET /api/home/&#123;customerId&#125;]    Auth <--> Redis[(Redis Token Cache)]
+    Client --> Core[core-service :8082<br/>GET /api/home/customerId]
+    Auth <--> Redis[(Redis Token Cache)]
     Core <--> Postgres[(PostgreSQL via R2DBC)]
     subgraph banking-commons [Shared Library]
         direction TB
@@ -206,7 +207,7 @@ Tests strictly adhere to idiomatic Kotlin testing patterns utilizing **Kotest** 
 
 ## 13. Development Guidelines
 
-- **Architecture Rules:** Business logic strictly belongs in the `service` and `domain` layers. Spring/R2DBC code strictly belongs in `adapter` / `repository`. 
+- **Architecture Rules:** Business logic strictly belongs in the `service` and `domain` layers. Spring/R2DBC code strictly belongs in `adapter` / `repository`.
 - **Dependencies:** Use interfaces (ports) to communicate between core layers and external services/DBs.
 - **Shared Commons:** Cross-cutting concerns go in `banking-commons`. Do not duplicate DTOs, Security classes, or models.
 - **Testing:** Utilize `runTest` and Kotest features to natively test suspend functions.
